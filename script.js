@@ -1,7 +1,7 @@
 
-    const hamburger = document.querySelector('.hamburger');
+    const principal = document.querySelector('.principal');
     const actionsMenu = document.querySelector('.actions');
-    hamburger.addEventListener('click', () => actionsMenu.classList.toggle('show'));
+    principal.addEventListener('click', () => actionsMenu.classList.toggle('show'));
 
     const form = document.getElementById('dev-form');
     const nomeInput = document.getElementById('nome');
@@ -12,12 +12,8 @@
     let devs = JSON.parse(localStorage.getItem('devs')) || [];
     let editingIndex = null;
 
-    function calcularProdutividade(dev) {
-      return dev.horas + dev.producoes * 2;
-    }
-    function salvarDados() {
-      localStorage.setItem('devs', JSON.stringify(devs));
-    }
+    function calcularProdutividade(dev) { return dev.horas + dev.producoes * 2; }
+    function salvarDados() { localStorage.setItem('devs', JSON.stringify(devs)); }
 
     function atualizarRanking() {
       rankingDiv.innerHTML = '';
@@ -39,7 +35,6 @@
       });
     }
 
-    // Populate form on card click
     rankingDiv.addEventListener('click', e => {
       const card = e.target.closest('.dev-card');
       if (!card) return;
@@ -50,7 +45,6 @@
         atualizarRanking();
         return;
       }
-      // Enter edit mode
       editingIndex = idx;
       const dev = devs[idx];
       nomeInput.value = dev.nome;
