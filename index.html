@@ -4,148 +4,37 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CodeScore</title>
-  <style>
-    :root {
-      --color-bg: #edf0f5;
-      --color-card: #fff;
-      --color-primary: #00a885;
-      --color-danger: #ff6b6b;
-      --color-text: #333;
-      --color-footer: #1d1f2b;
-      --color-footer-text: #aaa;
-      --spacing: 1rem;
-      --radius: 0.5rem;
-      --font: 'Arial', sans-serif;
-      --icon-size: 1rem;
-      --logo-height: 3rem;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: var(--font); }
-    body { background: var(--color-bg); color: var(--color-text); }
-    header, footer { background: var(--color-footer); color: var(--color-footer-text); }
-    header {
-      padding: var(--spacing);
-      display: flex;
-      align-items: center;
-      position: relative;
-    }
-    /* Hamburger icon */
-    .hamburger {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      width: 24px;
-      height: 18px;
-      cursor: pointer;
-      z-index: 2;
-    }
-    .hamburger span {
-      display: block;
-      height: 3px;
-      background: #fff;
-      border-radius: 2px;
-    }
-    /* Logo centered */
-    header .logo-img {
-      position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      height: var(--logo-height);
-      z-index: 1;
-    }
-    /* Actions hidden by default, positioned under hamburger */
-    header .actions {
-      display: none;
-      flex-direction: column;
-      position: absolute;
-      top: calc(var(--spacing) + 18px + 5px);
-      left: var(--spacing);
-      background: var(--color-footer);
-      padding: 0.5rem;
-      border-radius: var(--radius);
-    }
-    header .actions.show {
-      display: flex;
-    }
-    header .actions button {
-      margin: 0.25rem 0;
-      padding: 0.5rem 1rem;
-      border: none;
-      border-radius: var(--radius);
-      background: var(--color-primary);
-      color: #fff;
-      cursor: pointer;
-    }
-    main { max-width: 600px; margin: calc(var(--spacing) * 1.5) auto var(--spacing); background: var(--color-card); padding: var(--spacing); border-radius: var(--radius); }
-    .add-devs, .ranking-devs { margin-bottom: var(--spacing); }
-    .add-devs h2, .ranking-devs h2 { margin-bottom: 0.75rem; text-align: center; }
-    .add-devs .form { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem; }
-    .add-devs .form input, .add-devs .form textarea { padding: 0.5rem; border: 1px solid #ccc; border-radius: var(--radius); width: 100%; }
-    .add-devs .form textarea { grid-column: span 3; resize: vertical; height: 80px; }
-    .add-devs .buttons { text-align: center; }
-    .add-devs .buttons button { margin: 0 0.5rem; padding: 0.5rem 1.5rem; border: none; border-radius: var(--radius); cursor: pointer; }
-    .btn-add { background: var(--color-primary); color: #fff; }
-    .btn-corrigir { background: var(--color-danger); color: #fff; }
-    .ranking-devs .card { border-radius: var(--radius); padding: var(--spacing); margin-bottom: 0.5rem; position: relative; }
-    .ranking-devs .card .close { position: absolute; top: 0.5rem; right: 0.5rem; cursor: pointer; font-weight: bold; }
-    .card.victor { background: #d4fcdc; }
-    .card.fernando { background: #e0e0e0; }
-    .card.renato { background: #ffd6d6; }
-    footer { padding: var(--spacing); }
-    footer .footer-content { display: flex; justify-content: space-between; }
-    footer .footer-content div { flex: 1; }
-    footer .footer-content h4 { margin-bottom: 0.5rem; color: #fff; }
-    footer .footer-content ul { list-style: none; }
-    footer .footer-content li { margin-bottom: 0.5rem; display: flex; align-items: center; }
-    footer .footer-content li img { height: var(--icon-size); width: auto; margin-left: 0.5rem; }
-    footer .bottom-bar { text-align: center; margin-top: var(--spacing); border-top: 1px solid #333; padding-top: var(--spacing); font-size: 0.85rem; }
-  </style>
+  <link rel="stylesheet" href="style.css">
+  
 </head>
 <body>
   <header>
-    <!-- Hamburger para liberar botões -->
-    <div class="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
+    <div class="hamburger"><span></span><span></span><span></span></div>
     <img src="logo.png" alt="CodeScore Logo" class="logo-img">
     <div class="actions">
-      <button>New File</button>
-      <button>Import File</button>
-      <button>Export File</button>
+      <button id="btnNewFile">New File</button>
+      <button id="btnImportFile">Import File</button>
+      <button id="btnExportFile">Export File</button>
     </div>
+    <input type="file" id="importarJSON" accept=".json" style="display:none;">
   </header>
   <main>
     <section class="add-devs">
       <h2>Adicionando Devs</h2>
-      <div class="form">
-        <input type="text" placeholder="Nome">
-        <input type="text" placeholder="Horas">
-        <input type="text" placeholder="Produção">
-        <textarea placeholder="Descrição"></textarea>
-      </div>
-      <div class="buttons">
-        <button class="btn-add">Adicionar/Atualizar</button>
-        <button class="btn-corrigir">Corrigir</button>
-      </div>
+      <form id="dev-form">
+        <input id="nome" type="text" placeholder="Nome">
+        <input id="horas" type="number" placeholder="Horas">
+        <input id="producoes" type="number" placeholder="Produção">
+        <textarea id="descricao" placeholder="Descrição"></textarea>
+        <div class="buttons">
+          <button type="submit" class="btn-add">Adicionar/Atualizar</button>
+          <button type="button" class="btn-corrigir">Corrigir</button>
+        </div>
+      </form>
     </section>
     <section class="ranking-devs">
       <h2>Ranking dos Devs</h2>
-      <div class="card victor">
-        <div class="close">×</div>
-        <strong>Victor</strong><p>10 horas - 4 projetos - 14 pontos</p>
-        <p>Descrição... Lorem ipsum dolor sit amet...</p>
-      </div>
-      <div class="card fernando">
-        <div class="close">×</div>
-        <strong>Fernando</strong><p>5 horas - 5 projetos - 10 pontos</p>
-        <p>Descrição... Lorem ipsum dolor sit amet...</p>
-      </div>
-      <div class="card renato">
-        <div class="close">×</div>
-        <strong>Renato</strong><p>1 hora - 2 projetos - 3 pontos</p>
-        <p>Descrição... Lorem ipsum dolor sit amet...</p>
-      </div>
+      <div id="ranking"></div>
     </section>
   </main>
   <footer>
@@ -153,42 +42,22 @@
       <div>
         <h4>Desenvolvedores</h4>
         <ul>
-          <li>Victor H Fedatto
-            <img src="49-493540_linkedin-icon-png-black-linkedin-black-logo-png.png" alt="LinkedIn">
-            <img src="insta.png" alt="Instagram">
-            <img src="github_PNG80.png" alt="GitHub">
-          </li>
-          <li>Kaliel Selhorst
-            <img src="49-493540_linkedin-icon-png-black-linkedin-black-logo-png.png" alt="LinkedIn">
-            <img src="insta.png" alt="Instagram">
-            <img src="github_PNG80.png" alt="GitHub">
-          </li>
+          <li>Victor H Fedatto <img src="49-493540_linkedin-icon-png-black-linkedin-black-logo-png.png" alt="LinkedIn"><img src="insta.png" alt="Instagram"><img src="github_PNG80.png" alt="GitHub"></li>
+          <li>Kaliel Selhorst <img src="49-493540_linkedin-icon-png-black-linkedin-black-logo-png.png" alt="LinkedIn"><img src="insta.png" alt="Instagram"><img src="github_PNG80.png" alt="GitHub"></li>
         </ul>
       </div>
       <div>
         <h4>Ajuda</h4>
-        <ul>
-          <li>Sobre nós</li>
-          <li>Principais dúvidas</li>
-          <li>Fale conosco</li>
-        </ul>
+        <ul><li>Sobre nós</li><li>Principais dúvidas</li><li>Fale conosco</li></ul>
       </div>
       <div>
         <h4>Nos Siga</h4>
-        <ul>
-          <li>Instagram</li>
-          <li>GitHub</li>
-          <li>Email</li>
-        </ul>
+        <ul><li>Instagram</li><li>GitHub</li><li>Email</li></ul>
       </div>
     </div>
     <div class="bottom-bar">Site desenvolvido pela [empresa] INC. © 2025 Todos os direitos reservados</div>
   </footer>
-  <script>
-    // Toggle menu actions
-    document.querySelector('.hamburger').addEventListener('click', () => {
-      document.querySelector('.actions').classList.toggle('show');
-    });
-  </script>
+  
+    <script src="script.js"></script>
 </body>
 </html>
